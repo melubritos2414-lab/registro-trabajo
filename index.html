@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <title>Registro de Horas de Trabajo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⏰ Registro de Horas de Trabajo</h1>
+        </header>
+
+        <section class="config-section no-print">
+            <div class="trabajador-config">
+                <label for="nombreTrabajador">Nombre y Apellido:</label>
+                <input type="text" id="nombreTrabajador" placeholder="Ej: Juan Pérez">
+                <button onclick="guardarTrabajador()" class="btn btn-secondary">Guardar</button>
+            </div>
+        </section>
+
+        <section class="form-section no-print">
+            <h2>Registrar Jornada</h2>
+            <form id="trabajoForm">
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" required>
+                </div>
+                <div class="form-group">
+                    <label for="horaEntrada">Hora Entrada:</label>
+                    <input type="time" id="horaEntrada" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="horaSalida">Hora Salida:</label>
+                    <input type="time" id="horaSalida" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lugar">Lugar de Trabajo:</label>
+                    <textarea id="lugar" placeholder="Ej: Oficina Central, Obra 123, Calle Mayor 45..." rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Registrar Jornada</button>
+            </form>
+        </section>
+
+        <section class="filter-section no-print">
+            <h2>Filtros y Acciones</h2>
+            <div class="filter-controls">
+                <div class="form-group">
+                    <label for="filtroMes">Filtrar por Mes:</label>
+                    <input type="month" id="filtroMes">
+                </div>
+                <button onclick="filtrarPorMes()" class="btn btn-secondary">Filtrar</button>
+                <button onclick="mostrarTodos()" class="btn btn-secondary">Mostrar Todos</button>
+                <button onclick="imprimirMes()" class="btn btn-success">🖨️ Imprimir</button>
+                <button onclick="limpiarDatos()" class="btn btn-danger">🗑️ Limpiar</button>
+            </div>
+        </section>
+        <section class="tabla-section">
+            <h2>Jornadas Registradas</h2>
+            <div class="table-responsive">
+                <table id="tablaTrabajo">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Horas</th>
+                            <th>Lugar</th>
+                            <th class="no-print">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trabajosBody">
+                        <!-- Los registros se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="mensajeVacio" class="mensaje-vacio">No hay jornadas registradas</p>
+        </section>
+
+        <section class="resumen-section">
+            <h2>Resumen Mensual</h2>
+            <div id="resumenMensual">
+                <!-- Resumen mensual se generará aquí -->
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js?v=2"></script>
+    <script>
+        // Registrar el Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker registrado:', registration);
+                })
+                .catch(error => {
+                    console.log('Error al registrar Service Worker:', error);
+                });
+        }
+    </script>
+</body>
+</html>
