@@ -215,14 +215,20 @@ input:focus, textarea:focus {
 }
 
 @media print {
+    h1,
     h2:first-of-type,
     form,
     hr,
     .btn-imprimir,
     .btn-eliminar-tabla,
     #configNombre,
-    #formularioRegistro > div:first-child {
-        display: none;
+    #formularioRegistro > div:first-child,
+    .registros-header {
+        display: none !important;
+    }
+    
+    #tituloImpresion {
+        display: block !important;
     }
     
     #tablaRegistros th:last-child,

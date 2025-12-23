@@ -15,6 +15,7 @@ window.addEventListener('load', () => {
     nombreUsuario = localStorage.getItem('nombreUsuario') || '';
     if (nombreUsuario) {
         document.getElementById('nombreMostrar').textContent = nombreUsuario;
+        document.getElementById('nombreImpresion').textContent = 'Empleado: ' + nombreUsuario;
         document.getElementById('configNombre').style.display = 'none';
         document.getElementById('formularioRegistro').style.display = 'block';
     }
@@ -37,6 +38,7 @@ function guardarNombre() {
         nombreUsuario = nombre;
         localStorage.setItem('nombreUsuario', nombre);
         document.getElementById('nombreMostrar').textContent = nombre;
+        document.getElementById('nombreImpresion').textContent = 'Empleado: ' + nombre;
         document.getElementById('configNombre').style.display = 'none';
         document.getElementById('formularioRegistro').style.display = 'block';
     } else {
