@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    color: #1565c0;
+    background: white;
+    padding: 15px;
+    border: 3px solid #1565c0;
+}
+
+h2 {
+    margin: 20px 0 10px 0;
+    font-size: 1.1em;
+    color: #1565c0;
+}
+
+hr {
+    margin: 30px 0;
+    border: none;
+    border-top: 2px solid #1565c0;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #1565c0;
+    background: #f5f5f5;
+}
+
+input:focus {
+    outline: none;
+    background: white;
+    border-color: #0d47a1;
+}
+
+.btn-agregar {
+    width: 100%;
+    padding: 10px;
+    background: #1565c0;
+    color: white;
+    border: 2px solid #1565c0;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.btn-agregar:hover {
+    background: #0d47a1;
+    border-color: #0d47a1;
+}
+
+.registros-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.btn-imprimir {
+    padding: 8px 15px;
+    background: #4caf50;
+    color: white;
+    border: 2px solid #4caf50;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-imprimir:hover {
+    background: #388e3c;
+    border-color: #388e3c;
+}
+
+.contenedor-cuadrados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.cuadrado-registro {
+    border: 3px solid #1565c0;
+    padding: 15px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.cuadrado-registro:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(21, 101, 192, 0.3);
+}
+
+.cuadrado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1565c0;
+    background: #e3f2fd;
+    padding: 10px;
+    margin: -15px -15px 10px -15px;
+}
+
+.cuadrado-header strong {
+    color: #0d47a1;
+}
+
+.cuadrado-info div {
+    margin: 5px 0;
+}
+
+.btn-eliminar {
+    background: #f44336;
+    color: white;
+    border: 2px solid #f44336;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.btn-eliminar:hover {
+    background: #d32f2f;
+    border-color: #d32f2f;
+}
+
+.mensaje-vacio {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+@media print {
+    h2:first-of-type,
+    form,
+    hr,
+    .btn-imprimir,
+    .btn-eliminar {
+        display: none;
+    }
+    
+    .contenedor-cuadrados {
+        display: block;
+    }
+    
+    .cuadrado-registro {
+        page-break-inside: avoid;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .contenedor-cuadrados {
+        grid-template-columns: 1fr;
+    }
+}
