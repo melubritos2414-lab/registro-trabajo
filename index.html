@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Trabajo</title>
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- PWA - Para instalar como app -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1565c0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Registro">
 </head>
 <body>
     <div class="container">
@@ -50,5 +57,14 @@
 
     <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
+    
+    <!-- Registrar Service Worker para PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('Service Worker registrado'))
+                .catch(err => console.log('Error al registrar Service Worker:', err));
+        }
+    </script>
 </body>
 </html>
