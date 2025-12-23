@@ -16,13 +16,15 @@
                     <label>Nombre y Apellido:</label>
                     <input type="text" id="nombreCompleto" required>
                 </div>
-                
                 <div class="form-group">
                     <label>Fecha:</label>
                     <input type="date" id="fecha" required>
                 </div>
-                
-                <div class="form-row">
+                <div class="form-group">
+                    <label>Lugar de Trabajo:</label>
+                    <textarea id="lugarTrabajo" class="input-ancho" rows="3" required></textarea>
+                </div>
+                 <div class="form-row">
                     <div class="form-group">
                         <label>Hora Entrada:</label>
                         <input type="time" id="horaEntrada" required>
@@ -33,13 +35,10 @@
                         <input type="time" id="horaSalida" required>
                     </div>
                 </div>
-                
-                <button type="submit" class="btn-agregar">AGREGAR</button>
+                 <button type="submit" class="btn-agregar">AGREGAR</button>
             </form>
-        
-        <hr>
-        
-        <div class="registros-header">
+            <hr>
+         <div class="registros-header">
             <h2>Registros del Mes</h2>
             <button onclick="imprimirRegistros()" class="btn-imprimir">IMPRIMIR</button>
         </div>

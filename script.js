@@ -32,6 +32,7 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
     const nuevoRegistro = {
         id: Date.now(),  // ID único basado en la fecha actual
         nombreCompleto: document.getElementById('nombreCompleto').value,
+        lugarTrabajo: document.getElementById('lugarTrabajo').value,
         fecha: document.getElementById('fecha').value,
         horaEntrada: document.getElementById('horaEntrada').value,
         horaSalida: document.getElementById('horaSalida').value
@@ -83,6 +84,7 @@ function mostrarRegistros() {
                 <button onclick="eliminarRegistro(${registro.id})" class="btn-eliminar">X</button>
             </div>
             <div class="cuadrado-info">
+                <div><strong>Lugar:</strong> ${registro.lugarTrabajo}</div>
                 <div><strong>Fecha:</strong> ${formatearFecha(registro.fecha)}</div>
                 <div><strong>Entrada:</strong> ${registro.horaEntrada}</div>
                 <div><strong>Salida:</strong> ${registro.horaSalida}</div>
