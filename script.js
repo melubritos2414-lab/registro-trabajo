@@ -3,6 +3,7 @@
 // ============================================
 // Array vacío donde se guardarán todos los registros de trabajo
 let registros = [];
+let nombreUsuario = '';
 
 
 // ============================================
@@ -10,6 +11,14 @@ let registros = [];
 // ============================================
 // Cuando la página termine de cargar, busca si hay registros guardados
 window.addEventListener('load', () => {
+    // Cargar nombre guardado
+    nombreUsuario = localStorage.getItem('nombreUsuario') || '';
+    if (nombreUsuario) {
+        document.getElementById('nombreMostrar').textContent = nombreUsuario;
+        document.getElementById('configNombre').style.display = 'none';
+        document.getElementById('formularioRegistro').style.display = 'block';
+    }
+    
     const guardados = localStorage.getItem('registrosTrabajo');
     if (guardados) {
         // Si hay datos guardados, los convierte de texto a array
@@ -18,6 +27,27 @@ window.addEventListener('load', () => {
         mostrarRegistros();
     }
 });
+
+// Función para guardar el nombre
+function guardarNombre() {
+    const nombre = document.getElementById('nombreCompleto').value.trim();
+    if (nombre) {
+        nombreUsuario = nombre;
+        localStorage.setItem('nombreUsuario', nombre);
+        document.getElementById('nombreMostrar').textContent = nombre;
+        document.getElementById('configNombre').style.display = 'none';
+        document.getElementById('formularioRegistro').style.display = 'block';
+    } else {
+        alert('Por favor ingresa tu nombre');
+    }
+}
+
+// Función para cambiar el nombre
+function cambiarNombre() {
+    document.getElementById('nombreCompleto').value = nombreUsuario;
+    document.getElementById('configNombre').style.display = 'block';
+    document.getElementById('formularioRegistro').style.display = 'none';
+}
 
 
 // ============================================
@@ -31,7 +61,7 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
     // Crea un objeto con todos los datos del formulario
     const nuevoRegistro = {
         id: Date.now(),  // ID único basado en la fecha actual
-        nombreCompleto: document.getElementById('nombreCompleto').value,
+        nombreCompleto: nombreUsuario,  // Usa el nombre guardado
         lugarTrabajo: document.getElementById('lugarTrabajo').value,
         fecha: document.getElementById('fecha').value,
         horaEntrada: document.getElementById('horaEntrada').value,
