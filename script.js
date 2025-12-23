@@ -23,6 +23,8 @@ window.addEventListener('load', () => {
     if (guardados) {
         // Si hay datos guardados, los convierte de texto a array
         registros = JSON.parse(guardados);
+        // Ordena por fecha antes de mostrar
+        registros.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
         // Muestra los registros en la página
         mostrarRegistros();
     }
@@ -68,8 +70,11 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
         horaSalida: document.getElementById('horaSalida').value
     };
     
-    // Agrega el registro al PRINCIPIO del array (más recientes primero)
-    registros.unshift(nuevoRegistro);
+    // Agrega el registro al array
+    registros.push(nuevoRegistro);
+    
+    // Ordena los registros por fecha (de más antigua a más reciente)
+    registros.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
     
     // Guarda en localStorage (memoria del navegador)
     localStorage.setItem('registrosTrabajo', JSON.stringify(registros));
@@ -83,46 +88,39 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
 
 
 // ============================================
-// 4. MOSTRAR REGISTROS EN CUADRADOS
+// 4. MOSTRAR REGISTROS EN TABLA
 // ============================================
 function mostrarRegistros() {
-    // Obtiene el contenedor donde van los cuadrados
     const contenedor = document.getElementById('contenedorRegistros');
     const mensajeVacio = document.getElementById('mensajeVacio');
+    const tabla = document.getElementById('tablaRegistros');
     
     // Si no hay registros, muestra mensaje
     if (registros.length === 0) {
         contenedor.innerHTML = '';
         mensajeVacio.style.display = 'block';
+        tabla.style.display = 'none';
         return;
     }
     
-    // Oculta el mensaje y limpia el contenedor
+    // Oculta el mensaje y muestra la tabla
     mensajeVacio.style.display = 'none';
+    tabla.style.display = 'table';
     contenedor.innerHTML = '';
     
-    // Recorre cada registro y crea un cuadrado para cada uno
+    // Recorre cada registro y crea una fila para cada uno
     registros.forEach(registro => {
-        // Crea un div (cuadrado)
-        const cuadrado = document.createElement('div');
-        cuadrado.className = 'cuadrado-registro';
+        const fila = document.createElement('tr');
         
-        // Le pone el contenido HTML con los datos del registro
-        cuadrado.innerHTML = `
-            <div class="cuadrado-header">
-                <strong>${registro.nombreCompleto}</strong>
-                <button onclick="eliminarRegistro(${registro.id})" class="btn-eliminar">X</button>
-            </div>
-            <div class="cuadrado-info">
-                <div><strong>Lugar:</strong> ${registro.lugarTrabajo}</div>
-                <div><strong>Fecha:</strong> ${formatearFecha(registro.fecha)}</div>
-                <div><strong>Entrada:</strong> ${registro.horaEntrada}</div>
-                <div><strong>Salida:</strong> ${registro.horaSalida}</div>
-            </div>
+        fila.innerHTML = `
+            <td>${formatearFecha(registro.fecha)}</td>
+            <td>${registro.lugarTrabajo}</td>
+            <td>${registro.horaEntrada}</td>
+            <td>${registro.horaSalida}</td>
+            <td><button onclick="eliminarRegistro(${registro.id})" class="btn-eliminar-tabla">X</button></td>
         `;
         
-        // Agrega el cuadrado al contenedor
-        contenedor.appendChild(cuadrado);
+        contenedor.appendChild(fila);
     });
 }
 

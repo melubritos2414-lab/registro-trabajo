@@ -47,7 +47,7 @@ label {
 }
 
 input, textarea {
-    
+
     width: 100%;
     padding: 10px;
     border: 2px solid #1565c0;
@@ -165,22 +165,73 @@ input:focus, textarea:focus {
     color: #666;
 }
 
+/* ============================================ */
+/* ESTILOS DE LA TABLA */
+/* ============================================ */
+#tablaRegistros {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 20px;
+}
+
+#tablaRegistros thead {
+    background: #1565c0;
+    color: white;
+}
+
+#tablaRegistros th {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border: 2px solid #1565c0;
+}
+
+#tablaRegistros td {
+    padding: 10px 12px;
+    border: 1px solid #bbdefb;
+}
+
+#tablaRegistros tbody tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+#tablaRegistros tbody tr:hover {
+    background: #e3f2fd;
+}
+
+.btn-eliminar-tabla {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.btn-eliminar-tabla:hover {
+    background: #d32f2f;
+}
+
 @media print {
     h2:first-of-type,
     form,
     hr,
     .btn-imprimir,
-    .btn-eliminar {
+    .btn-eliminar-tabla,
+    #configNombre,
+    #formularioRegistro > div:first-child {
         display: none;
     }
     
-    .contenedor-cuadrados {
-        display: block;
+    #tablaRegistros th:last-child,
+    #tablaRegistros td:last-child {
+        display: none;
     }
     
-    .cuadrado-registro {
-        page-break-inside: avoid;
-        margin-bottom: 10px;
+    body {
+        background: white;
     }
 }
 
