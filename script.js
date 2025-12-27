@@ -76,9 +76,7 @@ document.getElementById('registroForm').addEventListener('submit', async functio
     const nuevoRegistro = {
         nombreCompleto: nombreUsuario,
         lugarTrabajo: document.getElementById('lugarTrabajo').value,
-        fecha: document.getElementById('fecha').value,
-        horaEntrada: document.getElementById('horaEntrada').value,
-        horaSalida: document.getElementById('horaSalida').value
+        fecha: document.getElementById('fecha').value
     };
     
     try {
@@ -119,8 +117,6 @@ function mostrarRegistros() {
         fila.innerHTML = `
             <td>${formatearFecha(registro.fecha)}</td>
             <td>${registro.lugarTrabajo}</td>
-            <td>${registro.horaEntrada}</td>
-            <td>${registro.horaSalida}</td>
             <td><button onclick="eliminarRegistro('${registro.id}')" class="btn-eliminar-tabla">X</button></td>
         `;
         
