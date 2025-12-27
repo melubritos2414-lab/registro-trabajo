@@ -92,10 +92,30 @@
     <!-- Registrar Service Worker para PWA -->
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('./service-worker.js')
                 .then(() => console.log('Service Worker registrado'))
                 .catch(err => console.log('Error al registrar Service Worker:', err));
         }
     </script>
+        <!-- Firebase App (core) -->
+        <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+        <!-- Firestore -->
+        <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+        <script>
+            // Configuración de Firebase de tu app web
+            const firebaseConfig = {
+                apiKey: "AIzaSyAhQ8vyj5XhdCe0vfu2hMu8dhXmAgs79VQ",
+                authDomain: "registro-trabajo-3236.firebaseapp.com",
+                projectId: "registro-trabajo-3236",
+                storageBucket: "registro-trabajo-3236.firebasestorage.app",
+                messagingSenderId: "508089440838",
+                appId: "1:508089440838:web:1fa6810a6e2d5625ae4847",
+                measurementId: "G-JMQX4ZJ906"
+            };
+            // Inicializa Firebase
+            firebase.initializeApp(firebaseConfig);
+            // Inicializa Firestore
+            const db = firebase.firestore();
+        </script>
 </body>
 </html>

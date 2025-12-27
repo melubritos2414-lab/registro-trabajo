@@ -1,35 +1,43 @@
 // ============================================
 // 1. VARIABLE PARA GUARDAR LOS REGISTROS
 // ============================================
-// Array vacío donde se guardarán todos los registros de trabajo
 let registros = [];
 let nombreUsuario = '';
+
+// Referencia a la colección de Firestore
+let registrosRef = null;
 
 
 // ============================================
 // 2. CARGAR DATOS AL INICIAR LA PÁGINA
 // ============================================
-// Cuando la página termine de cargar, busca si hay registros guardados
-window.addEventListener('load', () => {
-    // Cargar nombre guardado
+window.addEventListener('load', async () => {
     nombreUsuario = localStorage.getItem('nombreUsuario') || '';
     if (nombreUsuario) {
         document.getElementById('nombreMostrar').textContent = nombreUsuario;
         document.getElementById('nombreImpresion').textContent = 'Empleado: ' + nombreUsuario;
         document.getElementById('configNombre').style.display = 'none';
         document.getElementById('formularioRegistro').style.display = 'block';
-    }
-    
-    const guardados = localStorage.getItem('registrosTrabajo');
-    if (guardados) {
-        // Si hay datos guardados, los convierte de texto a array
-        registros = JSON.parse(guardados);
-        // Ordena por fecha antes de mostrar
-        registros.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-        // Muestra los registros en la página
-        mostrarRegistros();
+        // Referencia a la colección de Firestore para este usuario
+        registrosRef = db.collection('registros').where('nombreCompleto', '==', nombreUsuario);
+        await cargarRegistrosFirestore();
     }
 });
+
+async function cargarRegistrosFirestore() {
+    try {
+        const snapshot = await db.collection('registros').where('nombreCompleto', '==', nombreUsuario).get();
+        registros = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            registros.push({ ...data, id: doc.id });
+        });
+        registros.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+        mostrarRegistros();
+    } catch (error) {
+        alert('Error al cargar registros de la nube');
+    }
+}
 
 // Función para guardar el nombre
 function guardarNombre() {
@@ -41,6 +49,9 @@ function guardarNombre() {
         document.getElementById('nombreImpresion').textContent = 'Empleado: ' + nombre;
         document.getElementById('configNombre').style.display = 'none';
         document.getElementById('formularioRegistro').style.display = 'block';
+        // Referencia a la colección de Firestore para este usuario
+        registrosRef = db.collection('registros').where('nombreCompleto', '==', nombreUsuario);
+        cargarRegistrosFirestore();
     } else {
         alert('Por favor ingresa tu nombre');
     }
@@ -57,35 +68,26 @@ function cambiarNombre() {
 // ============================================
 // 3. AGREGAR NUEVO REGISTRO
 // ============================================
-// Escucha cuando el usuario envía el formulario
-document.getElementById('registroForm').addEventListener('submit', function(e) {
+document.getElementById('registroForm').addEventListener('submit', async function(e) {
     // Evita que la página se recargue
     e.preventDefault();
     
     // Crea un objeto con todos los datos del formulario
     const nuevoRegistro = {
-        id: Date.now(),  // ID único basado en la fecha actual
-        nombreCompleto: nombreUsuario,  // Usa el nombre guardado
+        nombreCompleto: nombreUsuario,
         lugarTrabajo: document.getElementById('lugarTrabajo').value,
         fecha: document.getElementById('fecha').value,
         horaEntrada: document.getElementById('horaEntrada').value,
         horaSalida: document.getElementById('horaSalida').value
     };
     
-    // Agrega el registro al array
-    registros.push(nuevoRegistro);
-    
-    // Ordena los registros por fecha (de más antigua a más reciente)
-    registros.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-    
-    // Guarda en localStorage (memoria del navegador)
-    localStorage.setItem('registrosTrabajo', JSON.stringify(registros));
-    
-    // Actualiza la visualización de los registros
-    mostrarRegistros();
-    
-    // Limpia el formulario para poder ingresar otro registro
-    this.reset();
+    try {
+        await db.collection('registros').add(nuevoRegistro);
+        await cargarRegistrosFirestore();
+        this.reset();
+    } catch (error) {
+        alert('Error al guardar en la nube');
+    }
 });
 
 
@@ -119,7 +121,7 @@ function mostrarRegistros() {
             <td>${registro.lugarTrabajo}</td>
             <td>${registro.horaEntrada}</td>
             <td>${registro.horaSalida}</td>
-            <td><button onclick="eliminarRegistro(${registro.id})" class="btn-eliminar-tabla">X</button></td>
+            <td><button onclick="eliminarRegistro('${registro.id}')" class="btn-eliminar-tabla">X</button></td>
         `;
         
         contenedor.appendChild(fila);
@@ -141,18 +143,15 @@ function formatearFecha(fecha) {
 // ============================================
 // 6. ELIMINAR UN REGISTRO
 // ============================================
-function eliminarRegistro(id) {
+async function eliminarRegistro(id) {
     // Pregunta si está seguro
     if (confirm('¿Estás seguro de eliminar este registro?')) {
-        // Filtra el array eliminando el registro con ese ID
-        // filter() crea un nuevo array sin el elemento que tenga ese ID
-        registros = registros.filter(r => r.id !== id);
-        
-        // Guarda los cambios en localStorage
-        localStorage.setItem('registrosTrabajo', JSON.stringify(registros));
-        
-        // Actualiza la visualización
-        mostrarRegistros();
+        try {
+            await db.collection('registros').doc(id).delete();
+            await cargarRegistrosFirestore();
+        } catch (error) {
+            alert('Error al eliminar en la nube');
+        }
     }
 }
 
