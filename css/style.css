@@ -46,14 +46,20 @@ label {
     font-weight: bold;
 }
 
-input, textarea {
 
+input, textarea {
     width: 100%;
     padding: 10px;
     border: 2px solid #1565c0;
     background: #f5f5f5;
     font-family: Arial, sans-serif;
     resize: vertical;
+}
+
+input[type="date"] {
+    max-width: 140px;
+    padding: 6px 8px;
+    font-size: 0.95em;
 }
 
 .input-ancho {
